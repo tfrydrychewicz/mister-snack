@@ -8,6 +8,7 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 
 | File                      | Responsibility                                                                         |
 | ------------------------- | -------------------------------------------------------------------------------------- |
+| `README.md`               | Project overview, setup, scripts, structure; entry point for new contributors.         |
 | `package.json`            | Dependencies, scripts, app metadata. Main entry: `out/main/index.js`.                  |
 | `index.html`              | Renderer HTML entry; loads `src/main.ts`.                                              |
 | `electron.vite.config.ts` | Electron-Vite build: main, preload, renderer entry points; `@` alias to `src/`.        |
