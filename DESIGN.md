@@ -247,31 +247,31 @@ Every new feature must have a design document in `features/<feature-name>.md` be
 
 ### Phase 1 — Core Infrastructure
 
-- [ ] Implement `main.ts` (main process): create `BrowserWindow`, handle app lifecycle
-- [ ] Implement `preload.ts`: expose typed `window.api` via `contextBridge`
-- [ ] Define all IPC channel names in a shared `ipc-channels.ts` constants file
-- [ ] Implement `StorageService` wrapping `electron-store` with typed get/set/delete
-- [ ] Implement `settings.service.ts`: CRUD for `AISettings`, API key stored encrypted, never exposed to renderer
-- [ ] Implement `settings.ipc.ts`: register `settings:get`, `settings:save`, `settings:test-connection`, `settings:list-models` handlers
-- [ ] Implement `ai-provider.interface.ts`: define `AIProvider` interface with `chat()` and `vision()` method signatures
-- [ ] Implement provider adapters — `openai.provider.ts`, `anthropic.provider.ts`, `google.provider.ts`, `ollama.provider.ts` — each wrapping the corresponding Vercel AI SDK provider
-- [ ] Implement `ai-client.ts` factory: reads `AISettings` from `StorageService`, instantiates and returns the correct provider adapter
-- [ ] Implement Vue Router with named routes: `onboarding`, `dashboard`, `plan`, `meal-detail`, `settings`
-- [ ] Implement `settings.store.ts` (renderer): fetch AI settings, expose `hasApiKey`, expose provider/model for display; never hold raw API key
-- [ ] Implement `ui.store.ts`: loading states, toast notifications, modal control
-- [ ] Build base UI component set (with Storybook stories for each):
-  - [ ] `BaseButton` — variants: primary, secondary, ghost, danger; sizes: sm, md, lg
-  - [ ] `BaseInput` — text, number, textarea; with label, error, hint slots
-  - [ ] `BaseSelect` — single and multi-select
-  - [ ] `BaseTagInput` — for allergies, preferences
-  - [ ] `BaseBadge` — for diet tags, goal labels
-  - [ ] `BaseCard` — container with header/body/footer slots
-  - [ ] `BaseModal` — accessible dialog with backdrop
-  - [ ] `BaseToast` — notification system
-  - [ ] `BaseSpinner` / `BaseSkeletonLoader`
-  - [ ] `PageHeader` — title + optional actions slot
-  - [ ] `AppSidebar` — navigation links
-  - [ ] `AppShell` — root layout composing sidebar + content area
+- [x] Implement `main.ts` (main process): create `BrowserWindow`, handle app lifecycle
+- [x] Implement `preload.ts`: expose typed `window.api` via `contextBridge`
+- [x] Define all IPC channel names in a shared `ipc-channels.ts` constants file
+- [x] Implement `StorageService` wrapping `electron-store` with typed get/set/delete
+- [x] Implement `settings.service.ts`: CRUD for `AISettings`, API key stored encrypted, never exposed to renderer
+- [x] Implement `settings.ipc.ts`: register `settings:get`, `settings:save`, `settings:test-connection`, `settings:list-models` handlers
+- [x] Implement `ai-provider.interface.ts`: define `AIProvider` interface with `chat()` and `vision()` method signatures
+- [x] Implement provider adapters — `openai.provider.ts`, `anthropic.provider.ts`, `google.provider.ts`, `ollama.provider.ts` — each wrapping the corresponding Vercel AI SDK provider
+- [x] Implement `ai-client.ts` factory: reads `AISettings` from `StorageService`, instantiates and returns the correct provider adapter
+- [x] Implement Vue Router with named routes: `onboarding`, `dashboard`, `plan`, `meal-detail`, `settings`
+- [x] Implement `settings.store.ts` (renderer): fetch AI settings, expose `hasApiKey`, expose provider/model for display; never hold raw API key
+- [x] Implement `ui.store.ts`: loading states, toast notifications, modal control
+- [x] Build base UI component set (with Storybook stories for each):
+  - [x] `BaseButton` — variants: primary, secondary, ghost, danger; sizes: sm, md, lg
+  - [x] `BaseInput` — text, number, textarea; with label, error, hint slots
+  - [x] `BaseSelect` — single and multi-select
+  - [x] `BaseTagInput` — for allergies, preferences
+  - [x] `BaseBadge` — for diet tags, goal labels
+  - [x] `BaseCard` — container with header/body/footer slots
+  - [x] `BaseModal` — accessible dialog with backdrop
+  - [x] `BaseToast` — notification system
+  - [x] `BaseSpinner` / `BaseSkeletonLoader`
+  - [x] `PageHeader` — title + optional actions slot
+  - [x] `AppSidebar` — navigation links
+  - [x] `AppShell` — root layout composing sidebar + content area
 
 ### Phase 2 — User Onboarding
 

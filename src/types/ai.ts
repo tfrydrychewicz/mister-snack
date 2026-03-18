@@ -7,6 +7,14 @@ export interface AISettings {
   ollamaBaseUrl?: string
 }
 
+/** Settings shape exposed to renderer; apiKey is replaced by hasApiKey. Never send raw keys over IPC. */
+export interface AISettingsPublic {
+  provider: AIProviderName
+  model: string
+  hasApiKey: boolean
+  ollamaBaseUrl?: string
+}
+
 export const PROVIDER_MODELS: Record<AIProviderName, string[]> = {
   openai: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo'],
   anthropic: ['claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest', 'claude-3-opus-latest'],

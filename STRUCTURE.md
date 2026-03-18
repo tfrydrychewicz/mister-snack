@@ -50,13 +50,17 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 
 ## Electron (Main Process)
 
-| File                                   | Responsibility                                                                  |
-| -------------------------------------- | ------------------------------------------------------------------------------- |
-| `electron/main.ts`                     | App entry; creates BrowserWindow, loads preload + renderer.                     |
-| `electron/preload.ts`                  | Exposes typed `window.api` via contextBridge. IPC handlers added in Phase 1.    |
-| `electron/services/storage.service.ts` | Typed wrapper over electron-store for `userProfile`, `mealPlans`, `aiSettings`. |
-
-**Placeholder dirs (Phase 1+):** `electron/ipc/`, `electron/services/ai/`, `electron/services/ai/providers/`.
+| File                                            | Responsibility                                                                   |
+| ----------------------------------------------- | -------------------------------------------------------------------------------- |
+| `electron/main.ts`                              | App entry; creates BrowserWindow, loads preload + renderer; registers IPC.       |
+| `electron/preload.ts`                           | Exposes typed `window.api` via contextBridge; settings IPC methods.              |
+| `electron/ipc-channels.ts`                      | Shared IPC channel name constants; used by preload and main.                     |
+| `electron/ipc/settings.ipc.ts`                  | Settings IPC handlers: get, save, test-connection, list-models.                  |
+| `electron/services/storage.service.ts`          | Typed wrapper over electron-store for `userProfile`, `mealPlans`.                |
+| `electron/services/settings.service.ts`         | CRUD for AISettings in encrypted store; API key never exposed; test/list-models. |
+| `electron/services/ai/ai-provider.interface.ts` | AIProvider interface with chat() and vision().                                   |
+| `electron/services/ai/ai-client.ts`             | Factory: reads settings, returns active provider adapter.                        |
+| `electron/services/ai/providers/*.provider.ts`  | OpenAI, Anthropic, Google, Ollama adapters wrapping Vercel AI SDK.               |
 
 ---
 
@@ -65,29 +69,31 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 | File                  | Responsibility                                                |
 | --------------------- | ------------------------------------------------------------- |
 | `src/main.ts`         | Vue app bootstrap; mounts App with Pinia + Vue Router.        |
-| `src/App.vue`         | Root component; renders `<RouterView />`.                     |
+| `src/App.vue`         | Root component; AppShell + RouterView + toast container.      |
 | `src/assets/main.css` | Tailwind directives; base typography and component utilities. |
 
 ---
 
 ## Renderer: Routing & State
 
-| File                     | Responsibility                                                                        |
-| ------------------------ | ------------------------------------------------------------------------------------- |
-| `src/router/index.ts`    | Vue Router; hash history. Routes: onboarding, dashboard, plan, meal-detail, settings. |
-| `src/stores/ui.store.ts` | Pinia store: loading, toasts, modal state.                                            |
+| File                           | Responsibility                                                                         |
+| ------------------------------ | -------------------------------------------------------------------------------------- |
+| `src/router/index.ts`          | Vue Router; hash history. Routes: onboarding, dashboard, plan, meal-detail, settings.  |
+| `src/stores/ui.store.ts`       | Pinia store: loading, toasts, modal state.                                             |
+| `src/stores/settings.store.ts` | Pinia store: AI settings via IPC; hasApiKey, provider, model; never holds raw API key. |
 
 ---
 
 ## Renderer: Types & Schemas
 
-| File                   | Responsibility                                                |
-| ---------------------- | ------------------------------------------------------------- |
-| `src/types/index.ts`   | Barrel re-export of profile, meal, ai types.                  |
-| `src/types/profile.ts` | UserProfile, ActivityLevel, NutritionGoal, DietType.          |
-| `src/types/meal.ts`    | Meal, DayPlan, MealPlan, Ingredient, Macros, PhotoAnalysis.   |
-| `src/types/ai.ts`      | AISettings, AIProviderName, PROVIDER_MODELS, PROVIDER_LABELS. |
-| `src/types/schemas.ts` | Zod schemas for validation; used by VeeValidate in forms.     |
+| File                    | Responsibility                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------- |
+| `src/types/index.ts`    | Barrel re-export of profile, meal, ai types.                                    |
+| `src/types/profile.ts`  | UserProfile, ActivityLevel, NutritionGoal, DietType.                            |
+| `src/types/meal.ts`     | Meal, DayPlan, MealPlan, Ingredient, Macros, PhotoAnalysis.                     |
+| `src/types/ai.ts`       | AISettings, AISettingsPublic, AIProviderName, PROVIDER_MODELS, PROVIDER_LABELS. |
+| `src/types/global.d.ts` | Window augmentation for `window.api`; typed IPC surface.                        |
+| `src/types/schemas.ts`  | Zod schemas for validation; used by VeeValidate in forms.                       |
 
 **Note:** `src/types/` is imported by both renderer (tsconfig.web) and main process (tsconfig.node) as shared types.
 
@@ -103,7 +109,8 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 | `src/views/MealDetailView.vue` | Ingredient list, macros, photo attachment (Phase 3–4). |
 | `src/views/SettingsView.vue`   | AI provider/model configuration (Phase 6).             |
 
-**Placeholder dirs:** `src/components/` (base, forms, meal, layout) — Phase 1 base components.
+| `src/components/base/` | BaseButton, BaseInput, BaseSelect, BaseTagInput, BaseBadge, BaseCard, BaseModal, BaseToast, BaseSpinner, BaseSkeletonLoader. |
+| `src/components/layout/` | AppToolbar (macOS traffic-light safe, draggable), PageHeader, AppSidebar, AppShell. |
 
 ---
 
@@ -118,16 +125,18 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 
 ## Tests
 
-| File                          | Responsibility                                    |
-| ----------------------------- | ------------------------------------------------- |
-| `tests/unit/ui-store.spec.ts` | Unit tests for ui.store (loading, toasts, modal). |
-| `tests/e2e/smoke.spec.ts`     | Placeholder E2E; full flows in Phase 7.           |
+| File                                  | Responsibility                                           |
+| ------------------------------------- | -------------------------------------------------------- |
+| `tests/unit/ui-store.spec.ts`         | Unit tests for ui.store (loading, toasts, modal).        |
+| `tests/unit/settings-store.spec.ts`   | Unit tests for settings.store (IPC mock).                |
+| `tests/unit/settings.service.spec.ts` | Unit tests for settings.service (electron-store mocked). |
+| `tests/e2e/smoke.spec.ts`             | Placeholder E2E; full flows in Phase 7.                  |
 
 ---
 
 ## Key Relationships
 
-- **Main process** → `StorageService` is the only persistence layer; all data flows through it.
+- **Main process** → `StorageService` for profile/plans; `settings.service` has separate encrypted store for AI settings.
 - **Renderer** → No direct IPC; all IPC goes through `window.api` (preload).
 - **Types** → `src/types/` is the single source of truth for shared interfaces; used by both processes.
 - **Forms** → VeeValidate + Zod (`src/types/schemas.ts`); views use `useForm` + `toTypedSchema`.

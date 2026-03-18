@@ -73,4 +73,18 @@ Now initialize STRUCTURE.md by scanning the current project filesystem and popul
 Looking at the @DESIGN.md , what other cursor rules should I have to maintain clean, effective, performant codebase.
 
 #7
+
+Define optimal/efficient github actions CI process for this app
+
+#8
+
+create single npm command that will locally run all of the CI commands at once.
+
+#9
+
+create a cursor rule that will enforce running `npm run ci` everytime that I ask you to commit my changes.
+
+#10
+
+the app should have a toolbar that will contain the macos window buttons and will allow to drag the window around
  

@@ -2,12 +2,11 @@ import Store from 'electron-store'
 import type { Schema } from 'electron-store'
 import type { UserProfile } from '../../src/types/profile'
 import type { MealPlan } from '../../src/types/meal'
-import type { AISettings } from '../../src/types/ai'
 
+/** AI settings are stored in a separate encrypted store via settings.service. */
 interface StoreSchema {
   userProfile: UserProfile | null
   mealPlans: MealPlan[]
-  aiSettings: AISettings | null
 }
 
 const schema: Schema<StoreSchema> = {
@@ -18,10 +17,6 @@ const schema: Schema<StoreSchema> = {
   mealPlans: {
     type: 'array',
     default: [],
-  },
-  aiSettings: {
-    type: ['object', 'null'],
-    default: null,
   },
 }
 
