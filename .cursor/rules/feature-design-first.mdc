@@ -1,0 +1,28 @@
+---
+description: All new features must be designed in a markdown document before implementation. Reusability is a primary concern.
+alwaysApply: true
+---
+
+# Feature Design-First Policy
+
+**Do not implement a new feature until a design document exists in `features/<feature-name>.md`.**
+
+## Before writing any code for a new feature
+
+1. Create `features/<feature-name>.md` using the template at `features/FEATURE_TEMPLATE.md`
+2. The document must cover: purpose, user journey, data model changes, component breakdown, IPC changes (if any), and open questions
+3. Only begin implementation after the design is reviewed and accepted
+
+## Reusability is a primary concern
+
+- Before creating a new component, check if an existing base component can be extended or composed
+- Extract any logic used in more than one place into a composable (`src/composables/`) or service
+- Prefer composition over duplication — a second use of the same pattern is the signal to abstract it
+- New Pinia stores should be scoped to a feature domain; never create a catch-all store
+
+## Checklist when adding a feature
+
+- [ ] `features/<feature-name>.md` exists and is complete
+- [ ] No new component duplicates an existing one
+- [ ] Reusable logic is in a composable or service, not inline in a view
+- [ ] New components are dumb and have Storybook stories

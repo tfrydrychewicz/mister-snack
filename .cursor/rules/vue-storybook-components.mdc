@@ -1,0 +1,43 @@
+---
+description: Enforce dumb, reusable Vue components with mandatory Storybook stories
+globs: src/components/**/*.vue
+alwaysApply: false
+---
+
+# Vue Component Standards
+
+All components inside `src/components/` are **dumb and presentational**. They must never import from Pinia stores, call IPC, or perform side-effects beyond emitting events.
+
+## Rules
+
+- Accept data exclusively via `defineProps` — no store access, no IPC calls
+- Communicate outward exclusively via `defineEmits` — no direct mutations
+- Every component file must have a co-located or matching story file in `stories/` or alongside the component as `ComponentName.stories.ts`
+- Stories must cover: default state + all meaningful prop variants + edge cases (empty, loading, error where applicable)
+- Component names must be `PascalCase` and reflect their purpose (e.g. `MealCard`, `BaseButton`)
+
+## Examples
+
+```vue
+<!-- ✅ GOOD — dumb component -->
+<script setup lang="ts">
+defineProps<{ label: string; disabled?: boolean }>()
+defineEmits<{ click: [] }>()
+</script>
+```
+
+```vue
+<!-- ❌ BAD — store dependency in a component -->
+<script setup lang="ts">
+import { useMealPlanStore } from '@/stores/meal-plan.store'
+const store = useMealPlanStore() // belongs in a view, not a component
+</script>
+```
+
+```typescript
+// ✅ Required — every component needs a story
+// BaseButton.stories.ts
+export default { component: BaseButton }
+export const Primary = { args: { label: 'Save', variant: 'primary' } }
+export const Disabled = { args: { label: 'Save', disabled: true } }
+```

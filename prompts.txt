@@ -1,0 +1,70 @@
+#1
+
+You're a software developer and architect
+
+Take my initial design in @my-design.md  and create a DESIGN.md file containing full, prodfessional design for this app. You can add tech to stack, if it makes sense, but do not remove anything that is my my stack.
+
+The design should contain detailed imoplememntation plan, that will help you create this app, split into phases. (each phase position starts with "- [ ] ").
+
+Create cursor rules, where @my-design.md tells you to.
+
+#2 
+
+In @DESIGN.md , make a change:
+- instead of hardcoding the openai api integration, in the apps settings let the user chose their preferred provider and model.
+
+#3
+
+implement ### Phase 0 — Project Scaffolding and check it done when done.
+
+#4 
+
+Add a Cursor rule for following the project design specification. The rule should say:
+DESIGN.md in the project root contains the original design vision, architecture decisions, and UX specifications for this app.
+When to consult it:
+
+Before implementing a new feature or screen, check DESIGN.md for relevant specs.
+When making architectural decisions (new module, state management pattern, IPC channel), verify alignment with the design.
+Do NOT re-read the entire file for small bug fixes or trivial changes.
+
+How to follow it:
+
+Treat DESIGN.md as the default intent. If I don't specify how something should work, DESIGN.md is the source of truth.
+If my request contradicts DESIGN.md:
+
+Flag the specific contradiction clearly at the top of your response, formatted as:
+⚠️ DESIGN CONFLICT: [brief description of the contradiction]
+Then proceed with my request — do not block on confirmation in agentic mode.
+At the end of the response, suggest the specific DESIGN.md update that would reconcile the deviation.
+If I later say "revert to design," undo the deviation and follow DESIGN.md instead.
+
+If DESIGN.md is ambiguous or silent on a topic, make a reasonable choice and note that the design didn't specify.
+
+Keeping it current:
+
+When I explicitly change a design decision, suggest a specific update to DESIGN.md so it stays accurate.
+Do not modify DESIGN.md without my approval.
+
+#5
+
+Add a Cursor rule for maintaining a STRUCTURE.md file in the project root as a lightweight project map. The rule should follow these principles:
+Purpose: STRUCTURE.md is a supplementary reference for understanding project layout. It is NOT a replacement for scanning the filesystem — always verify against reality when precision matters.
+Maintenance rules:
+
+When adding, deleting, moving, or renaming a file, update STRUCTURE.md in the same step.
+At the start of each new task or session, reconcile STRUCTURE.md against the actual filesystem and fix any drift before proceeding.
+If you notice a discrepancy between STRUCTURE.md and the filesystem at any point, trust the filesystem and update the file.
+
+Content guidelines:
+
+For each file, include a one-line description of its responsibility — what it does, not just what it is.
+Group files by module/feature area, not just directory nesting.
+Note key architectural decisions and relationships between files (e.g. "X is the only entry point for Y", "A depends on B for config").
+Mark files that are generated or should not be edited manually.
+Keep it concise — if a section grows beyond ~30 entries, summarize subdirectories rather than listing every file.
+
+Now initialize STRUCTURE.md by scanning the current project filesystem and populating it according to the guidelines above.
+
+
+
+ 
