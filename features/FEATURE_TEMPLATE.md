@@ -1,7 +1,7 @@
 # Feature: [Feature Name]
 
 > **Status**: Draft | In Review | Approved | Implemented
-> **Author**: 
+> **Author**:
 > **Date**: YYYY-MM-DD
 
 ---
@@ -39,10 +39,10 @@ interface ExampleModel {
 
 _List new UI components and which existing components are reused or extended._
 
-| Component | Type | Storybook story? | Notes |
-|---|---|---|---|
-| `NewComponent` | New | Yes | … |
-| `ExistingComponent` | Extended | — | Add `newProp` |
+| Component           | Type     | Storybook story? | Notes         |
+| ------------------- | -------- | ---------------- | ------------- |
+| `NewComponent`      | New      | Yes              | …             |
+| `ExistingComponent` | Extended | —                | Add `newProp` |
 
 ---
 
@@ -50,8 +50,8 @@ _List new UI components and which existing components are reused or extended._
 
 _List any new or modified IPC channels._
 
-| Channel | Direction | Payload | Response |
-|---|---|---|---|
+| Channel          | Direction       | Payload          | Response |
+| ---------------- | --------------- | ---------------- | -------- |
 | `feature:action` | renderer → main | `{ id: string }` | `Result` |
 
 ---

@@ -8,23 +8,23 @@ Mister Snack is an AI-powered nutrition assistant desktop application. It learns
 
 ## Tech Stack
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| Runtime | **Electron** | Cross-platform desktop shell |
-| Frontend build | **Vite** | Fast dev server & bundler |
-| UI framework | **Vue 3** (Composition API) | Reactive component model |
-| Styling | **Tailwind CSS** | Utility-first design system |
-| Component workshop | **Storybook** | Isolated UI development & documentation |
-| Language | **TypeScript** | Type safety across renderer and main process |
-| State management | **Pinia** | Modular, typed Vue store |
-| Routing | **Vue Router** | Single-page navigation within renderer |
-| Forms & validation | **VeeValidate + Zod** | Schema-driven form validation |
-| Local persistence | **electron-store** | Encrypted JSON storage on disk |
-| AI abstraction | **Vercel AI SDK** (`ai` package) | Unified interface across all providers |
-| AI providers | OpenAI · Anthropic · Google Gemini · Ollama | User-selectable; any vision-capable model |
-| Testing — unit | **Vitest + Vue Test Utils** | Component & logic tests |
-| Testing — E2E | **Playwright** | Full app integration tests |
-| IPC typing | Custom preload + typed channels | Type-safe main ↔ renderer bridge |
+| Layer              | Technology                                  | Purpose                                      |
+| ------------------ | ------------------------------------------- | -------------------------------------------- |
+| Runtime            | **Electron**                                | Cross-platform desktop shell                 |
+| Frontend build     | **Vite**                                    | Fast dev server & bundler                    |
+| UI framework       | **Vue 3** (Composition API)                 | Reactive component model                     |
+| Styling            | **Tailwind CSS**                            | Utility-first design system                  |
+| Component workshop | **Storybook**                               | Isolated UI development & documentation      |
+| Language           | **TypeScript**                              | Type safety across renderer and main process |
+| State management   | **Pinia**                                   | Modular, typed Vue store                     |
+| Routing            | **Vue Router**                              | Single-page navigation within renderer       |
+| Forms & validation | **VeeValidate + Zod**                       | Schema-driven form validation                |
+| Local persistence  | **electron-store**                          | Encrypted JSON storage on disk               |
+| AI abstraction     | **Vercel AI SDK** (`ai` package)            | Unified interface across all providers       |
+| AI providers       | OpenAI · Anthropic · Google Gemini · Ollama | User-selectable; any vision-capable model    |
+| Testing — unit     | **Vitest + Vue Test Utils**                 | Component & logic tests                      |
+| Testing — E2E      | **Playwright**                              | Full app integration tests                   |
+| IPC typing         | Custom preload + typed channels             | Type-safe main ↔ renderer bridge             |
 
 ---
 
@@ -117,86 +117,86 @@ mister-snack/
 ```typescript
 // User profile — persisted via electron-store
 interface UserProfile {
-  id: string;
-  name: string;
-  age: number;
-  sex: 'male' | 'female' | 'other';
-  weightKg: number;
-  heightCm: number;
-  activityLevel: 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
-  goals: NutritionGoal[];           // e.g. 'lose_weight', 'build_muscle'
-  diets: DietType[];                // e.g. 'vegan', 'keto', 'gluten_free'
-  allergies: string[];              // e.g. 'peanuts', 'shellfish'
-  nutritionPreferences: string[];   // e.g. 'low_sodium', 'high_protein'
-  onboardingCompleted: boolean;
+  id: string
+  name: string
+  age: number
+  sex: 'male' | 'female' | 'other'
+  weightKg: number
+  heightCm: number
+  activityLevel: 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active'
+  goals: NutritionGoal[] // e.g. 'lose_weight', 'build_muscle'
+  diets: DietType[] // e.g. 'vegan', 'keto', 'gluten_free'
+  allergies: string[] // e.g. 'peanuts', 'shellfish'
+  nutritionPreferences: string[] // e.g. 'low_sodium', 'high_protein'
+  onboardingCompleted: boolean
 }
 
 // A single meal within a daily plan
 interface Meal {
-  id: string;
-  slot: 'breakfast' | 'lunch' | 'dinner' | 'snack';
-  name: string;
-  description: string;
-  ingredients: Ingredient[];
-  macros: Macros;
-  photoPath?: string;               // local path after user attaches photo
-  photoAnalysis?: PhotoAnalysis;
+  id: string
+  slot: 'breakfast' | 'lunch' | 'dinner' | 'snack'
+  name: string
+  description: string
+  ingredients: Ingredient[]
+  macros: Macros
+  photoPath?: string // local path after user attaches photo
+  photoAnalysis?: PhotoAnalysis
 }
 
 interface Ingredient {
-  name: string;
-  quantity: string;
-  unit: string;
-  macros: Macros;
+  name: string
+  quantity: string
+  unit: string
+  macros: Macros
 }
 
 interface Macros {
-  kcal: number;
-  proteinG: number;
-  carbsG: number;
-  fatG: number;
+  kcal: number
+  proteinG: number
+  carbsG: number
+  fatG: number
 }
 
 // One day in the plan
 interface DayPlan {
-  date: string;                     // ISO date string
-  meals: Meal[];
-  totalMacros: Macros;
+  date: string // ISO date string
+  meals: Meal[]
+  totalMacros: Macros
 }
 
 // Full plan for a selected period
 interface MealPlan {
-  id: string;
-  createdAt: string;
-  periodStart: string;
-  periodEnd: string;
-  days: DayPlan[];
+  id: string
+  createdAt: string
+  periodStart: string
+  periodEnd: string
+  days: DayPlan[]
 }
 
 interface PhotoAnalysis {
-  summary: string;
-  estimatedMacros: Macros;
-  notes: string;
+  summary: string
+  estimatedMacros: Macros
+  notes: string
 }
 
 // AI provider configuration — persisted via electron-store
 // API keys are stored encrypted; never sent to the renderer
-type AIProviderName = 'openai' | 'anthropic' | 'google' | 'ollama';
+type AIProviderName = 'openai' | 'anthropic' | 'google' | 'ollama'
 
 interface AISettings {
-  provider: AIProviderName;
-  model: string;              // e.g. 'gpt-4o', 'claude-3-5-sonnet-latest'
-  apiKey?: string;            // not required for Ollama (local)
-  ollamaBaseUrl?: string;     // only for Ollama; defaults to http://localhost:11434
+  provider: AIProviderName
+  model: string // e.g. 'gpt-4o', 'claude-3-5-sonnet-latest'
+  apiKey?: string // not required for Ollama (local)
+  ollamaBaseUrl?: string // only for Ollama; defaults to http://localhost:11434
 }
 
 // Available models per provider (used to populate the settings UI)
 const PROVIDER_MODELS: Record<AIProviderName, string[]> = {
-  openai:    ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo'],
+  openai: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo'],
   anthropic: ['claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest', 'claude-3-opus-latest'],
-  google:    ['gemini-2.0-flash', 'gemini-2.0-pro'],
-  ollama:    [], // populated dynamically by querying the local Ollama instance
-};
+  google: ['gemini-2.0-flash', 'gemini-2.0-pro'],
+  ollama: [], // populated dynamically by querying the local Ollama instance
+}
 ```
 
 ### IPC Channel Contract
@@ -362,7 +362,6 @@ Every new feature must have a design document in `features/<feature-name>.md` be
 - [ ] Handle mid-session provider changes gracefully: new requests always pick up the latest settings via the `ai-client.ts` factory
 
 ### Phase 7 — Testing & Quality
-
 
 - [ ] Write unit tests for all `*.service.ts` files (main process business logic)
 - [ ] Write unit tests for `settings.service.ts`: verify API key encryption, provider resolution, and `test-connection` logic
