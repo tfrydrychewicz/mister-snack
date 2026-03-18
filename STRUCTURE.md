@@ -44,6 +44,7 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 | `.cursor/rules/main-process-trust.mdc`       | AI, file I/O, persistence, API keys only in main process.                          |
 | `.cursor/rules/ai-provider-abstraction.mdc`  | For electron/services: no direct provider imports; use ai-client factory.          |
 | `.cursor/rules/no-any.mdc`                   | For **/\*.ts, **/\*.vue: avoid any; prefer type imports and explicit return types. |
+| `.cursor/rules/commit-preflight.mdc`         | Always apply: run `npm run ci` before committing; only commit if CI passes.        |
 
 ---
 

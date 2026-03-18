@@ -1,0 +1,14 @@
+---
+description: Before committing, run npm run ci. Only commit if it passes.
+alwaysApply: true
+---
+
+# Commit Preflight
+
+When the user asks you to **commit** (or "commit my changes", "git commit", etc.):
+
+1. **Run `npm run ci` first.** Do not skip this step.
+2. **If CI passes** — proceed with `git add` and `git commit` as requested.
+3. **If CI fails** — do not commit. Report which step failed and the error output. Fix the failures if possible, then re-run CI. Only commit after CI passes.
+
+This ensures every commit meets format check, lint, typecheck, unit tests, build, and E2E before being recorded.
