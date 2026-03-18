@@ -1,6 +1,11 @@
 import type { AISettingsPublic } from './ai'
+import type { UserProfile } from './profile'
 
 export interface WindowApi {
+  profile: {
+    get: () => Promise<UserProfile | null>
+    save: (profile: UserProfile) => Promise<void>
+  }
   settings: {
     get: () => Promise<AISettingsPublic | null>
     save: (payload: {

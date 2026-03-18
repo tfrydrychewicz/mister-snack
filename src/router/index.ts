@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useProfileStore } from '@/stores/profile.store'
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -33,4 +34,20 @@ export const router = createRouter({
       component: () => import('../views/SettingsView.vue'),
     },
   ],
+})
+
+router.beforeEach(async (to) => {
+  const profileStore = useProfileStore()
+  if (profileStore.profile === null && profileStore.isLoading === false) {
+    await profileStore.fetchProfile()
+  }
+  const hasProfile = profileStore.profile !== null && profileStore.profile.onboardingCompleted
+  if (to.name === 'onboarding') {
+    if (hasProfile) return { name: 'dashboard' }
+    return undefined
+  }
+  if (!hasProfile && to.name !== 'onboarding') {
+    return { name: 'onboarding' }
+  }
+  return undefined
 })

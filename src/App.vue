@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import AppShell from '@/components/layout/AppShell.vue'
 import BaseToast from '@/components/base/BaseToast.vue'
 import { useUiStore } from '@/stores/ui.store'
@@ -7,11 +7,15 @@ import { storeToRefs } from 'pinia'
 
 const uiStore = useUiStore()
 const { toasts } = storeToRefs(uiStore)
+const route = useRoute()
 
-const sidebarItems = [
-  { name: 'dashboard', path: '/dashboard', label: 'Dashboard' },
-  { name: 'settings', path: '/settings', label: 'Settings' },
-]
+const sidebarItems =
+  route.name === 'onboarding'
+    ? []
+    : [
+        { name: 'dashboard', path: '/dashboard', label: 'Dashboard' },
+        { name: 'settings', path: '/settings', label: 'Settings' },
+      ]
 </script>
 
 <template>

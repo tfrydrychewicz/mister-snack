@@ -56,8 +56,10 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 | `electron/preload.ts`                           | Exposes typed `window.api` via contextBridge; settings IPC methods.              |
 | `electron/ipc-channels.ts`                      | Shared IPC channel name constants; used by preload and main.                     |
 | `electron/ipc/settings.ipc.ts`                  | Settings IPC handlers: get, save, test-connection, list-models.                  |
+| `electron/ipc/profile.ipc.ts`                   | Profile IPC handlers: get, save.                                                 |
 | `electron/services/storage.service.ts`          | Typed wrapper over electron-store for `userProfile`, `mealPlans`.                |
 | `electron/services/settings.service.ts`         | CRUD for AISettings in encrypted store; API key never exposed; test/list-models. |
+| `electron/services/profile.service.ts`          | CRUD for UserProfile via StorageService.                                         |
 | `electron/services/ai/ai-provider.interface.ts` | AIProvider interface with chat() and vision().                                   |
 | `electron/services/ai/ai-client.ts`             | Factory: reads settings, returns active provider adapter.                        |
 | `electron/services/ai/providers/*.provider.ts`  | OpenAI, Anthropic, Google, Ollama adapters wrapping Vercel AI SDK.               |
@@ -81,6 +83,7 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 | `src/router/index.ts`          | Vue Router; hash history. Routes: onboarding, dashboard, plan, meal-detail, settings.  |
 | `src/stores/ui.store.ts`       | Pinia store: loading, toasts, modal state.                                             |
 | `src/stores/settings.store.ts` | Pinia store: AI settings via IPC; hasApiKey, provider, model; never holds raw API key. |
+| `src/stores/profile.store.ts`  | Pinia store: user profile via IPC; fetchProfile, saveProfile, hasProfile.              |
 
 ---
 
@@ -110,6 +113,7 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 | `src/views/SettingsView.vue`   | AI provider/model configuration (Phase 6).             |
 
 | `src/components/base/` | BaseButton, BaseInput, BaseSelect, BaseTagInput, BaseBadge, BaseCard, BaseModal, BaseToast, BaseSpinner, BaseSkeletonLoader. |
+| `src/components/forms/` | StepForm; onboarding/: StepWelcome, StepPersonalInfo, StepActivityLevel, StepGoals, StepDiets, StepAllergies, StepPreferences, StepSummary. |
 | `src/components/layout/` | AppToolbar (macOS traffic-light safe, draggable), PageHeader, AppSidebar, AppShell. |
 
 ---
@@ -130,6 +134,8 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 | `tests/unit/ui-store.spec.ts`         | Unit tests for ui.store (loading, toasts, modal).        |
 | `tests/unit/settings-store.spec.ts`   | Unit tests for settings.store (IPC mock).                |
 | `tests/unit/settings.service.spec.ts` | Unit tests for settings.service (electron-store mocked). |
+| `tests/unit/profile.service.spec.ts`  | Unit tests for profile.service (storage mocked).         |
+| `tests/unit/profile-store.spec.ts`    | Unit tests for profile.store (IPC mocked).               |
 | `tests/e2e/smoke.spec.ts`             | Placeholder E2E; full flows in Phase 7.                  |
 
 ---

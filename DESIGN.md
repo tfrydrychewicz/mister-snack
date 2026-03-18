@@ -275,23 +275,23 @@ Every new feature must have a design document in `features/<feature-name>.md` be
 
 ### Phase 2 — User Onboarding
 
-- [ ] Design `features/onboarding.md` with full flow specification
-- [ ] Implement `profile.service.ts` (main process): CRUD operations on `UserProfile` via `StorageService`
-- [ ] Implement `profile.ipc.ts`: register `profile:get` and `profile:save` handlers
-- [ ] Implement `profile.store.ts` (renderer): fetch, cache and mutate profile via IPC
-- [ ] Build `OnboardingView.vue` as a multi-step wizard using `StepForm` component
-- [ ] Build onboarding step components (each with Storybook story):
-  - [ ] `StepWelcome` — greeting, app introduction
-  - [ ] `StepPersonalInfo` — name, age, sex, weight, height
-  - [ ] `StepActivityLevel` — visual selector card group
-  - [ ] `StepGoals` — multi-select goal picker
-  - [ ] `StepDiets` — diet type selector with descriptions
-  - [ ] `StepAllergies` — tag input with common allergy suggestions
-  - [ ] `StepPreferences` — nutrition preferences tag input
-  - [ ] `StepSummary` — review all data before saving
-- [ ] Validate each step with Zod schemas via VeeValidate
-- [ ] On completion, save profile and redirect to `DashboardView`
-- [ ] Guard routes: redirect unauthenticated (no profile) users to onboarding
+- [x] Design `features/onboarding.md` with full flow specification
+- [x] Implement `profile.service.ts` (main process): CRUD operations on `UserProfile` via `StorageService`
+- [x] Implement `profile.ipc.ts`: register `profile:get` and `profile:save` handlers
+- [x] Implement `profile.store.ts` (renderer): fetch, cache and mutate profile via IPC
+- [x] Build `OnboardingView.vue` as a multi-step wizard using `StepForm` component
+- [x] Build onboarding step components (each with Storybook story):
+  - [x] `StepWelcome` — greeting, app introduction
+  - [x] `StepPersonalInfo` — name, age, sex, weight, height
+  - [x] `StepActivityLevel` — visual selector card group
+  - [x] `StepGoals` — multi-select goal picker
+  - [x] `StepDiets` — diet type selector with descriptions
+  - [x] `StepAllergies` — tag input with common allergy suggestions
+  - [x] `StepPreferences` — nutrition preferences tag input
+  - [x] `StepSummary` — review all data before saving
+- [x] Validate each step with Zod schemas via VeeValidate
+- [x] On completion, save profile and redirect to `DashboardView`
+- [x] Guard routes: redirect unauthenticated (no profile) users to onboarding
 
 ### Phase 3 — Meal Planning Engine
 

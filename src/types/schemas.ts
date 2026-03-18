@@ -57,6 +57,27 @@ export const userProfileSchema = z.object({
   updatedAt: z.string().datetime(),
 })
 
+// Step-specific schemas for onboarding validation
+export const stepPersonalInfoSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  age: z.number().int().min(1, 'Enter a valid age').max(120),
+  sex: z.enum(['male', 'female', 'other']),
+  weightKg: z.number().positive('Enter weight in kg'),
+  heightCm: z.number().positive('Enter height in cm'),
+})
+
+export const stepActivityLevelSchema = z.object({
+  activityLevel: activityLevelSchema,
+})
+
+export const stepGoalsSchema = z.object({
+  goals: z.array(nutritionGoalSchema).min(1, 'Select at least one goal'),
+})
+
+export const stepDietsSchema = z.object({
+  diets: z.array(dietTypeSchema),
+})
+
 // ── Meal schemas ─────────────────────────────────────────────────────────────
 
 export const mealSlotSchema = z.enum(['breakfast', 'lunch', 'dinner', 'snack'])

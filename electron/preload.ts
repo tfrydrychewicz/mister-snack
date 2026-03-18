@@ -7,6 +7,10 @@ import { IPC_CHANNELS } from './ipc-channels'
  * All channel names are imported from the shared ipc-channels constants file.
  */
 const api = {
+  profile: {
+    get: () => ipcRenderer.invoke(IPC_CHANNELS.PROFILE_GET),
+    save: (profile: unknown) => ipcRenderer.invoke(IPC_CHANNELS.PROFILE_SAVE, profile),
+  },
   settings: {
     get: () => ipcRenderer.invoke(IPC_CHANNELS.SETTINGS_GET),
     save: (payload: {
