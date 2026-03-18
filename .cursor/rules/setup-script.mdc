@@ -1,0 +1,36 @@
+---
+description: Keep scripts/setup.sh in sync with project requirements. Update when dependencies, CI, or dev tooling changes.
+globs: package.json, .github/workflows/*.yml, playwright.config.*, .nvmrc, .node-version, volta.json
+alwaysApply: false
+---
+
+# Keep scripts/setup.sh Up-to-Date
+
+`scripts/setup.sh` is the single entry point for fresh-environment setup. It must stay in sync with what CI and development actually require.
+
+## When to Update
+
+**Whenever you change any of the following**, update `scripts/setup.sh` in the same step:
+
+| Change | Update in setup.sh |
+|--------|--------------------|
+| Node.js version in CI (`.github/workflows/ci.yml`) | `REQUIRED_NODE` / `RECOMMENDED_NODE` |
+| New `package.json` scripts or dev deps | Add verification step if new check (e.g. new lint tool) |
+| Playwright config or E2E setup | Keep `playwright install --with-deps chromium` or adjust for new browsers |
+| `.nvmrc` or `.node-version` added | Read and enforce that version in setup.sh |
+| New required system dependency (e.g. `ripgrep`, `ffmpeg`) | Add check + install hint before `npm ci` |
+| CI adds a new step (env var, extra tool install) | Mirror the step in setup.sh so local dev matches CI |
+
+## Sync Checklist
+
+Before finishing a change that affects setup:
+
+- [ ] Node version in setup.sh matches CI (`node-version` in `ci.yml`)
+- [ ] `npm ci` vs `npm install` logic matches lockfile presence
+- [ ] Playwright install command matches CI (browsers, `--with-deps`)
+- [ ] Verification steps (format, lint, typecheck, test:unit) match CI order
+- [ ] Any new required tool is checked or installed
+
+## Principle
+
+A developer cloning the repo and running `./scripts/setup.sh` should end up with an environment that passes `npm run ci`.

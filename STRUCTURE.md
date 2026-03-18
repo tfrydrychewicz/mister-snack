@@ -23,28 +23,31 @@ Lightweight map of the Mister Snack codebase. Verify against the filesystem when
 
 | `.github/workflows/ci.yml` | CI: format check, lint, typecheck, unit tests, build, E2E. Runs on push/PR to main/master. |
 
+| `scripts/setup.sh` | Fresh-environment setup: Node.js check, npm ci, Playwright chromium, verification. Run from project root. |
+
 **Generated / do not edit manually:** `package-lock.json`, `tsconfig.*.tsbuildinfo`, `out/`, `node_modules/`.
 
 ---
 
 ## Design & Rules
 
-| File                                         | Responsibility                                                                     |
-| -------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `DESIGN.md`                                  | Source of truth for architecture, tech stack, data model, implementation phases.   |
-| `my-design.md`                               | Original design brief (reference).                                                 |
-| `features/FEATURE_TEMPLATE.md`               | Template for new feature design docs; required before implementation.              |
-| `.cursor/rules/design-spec.mdc`              | Always apply: follow DESIGN.md; on conflicts, stop and ask before proceeding.      |
-| `.cursor/rules/feature-design-first.mdc`     | Always apply: design doc in `features/` before coding; reusability primary.        |
-| `.cursor/rules/structure-md.mdc`             | Always apply: maintain STRUCTURE.md; reconcile vs filesystem.                      |
-| `.cursor/rules/test-with-code.mdc`           | Always apply: add/update unit tests when adding/modifying services or stores.      |
-| `.cursor/rules/vue-storybook-components.mdc` | For `src/components/**/*.vue`: dumb components, Storybook stories required.        |
-| `.cursor/rules/views-are-composers.mdc`      | Views use stores/IPC; components and composables must not.                         |
-| `.cursor/rules/ipc-typed-boundaries.mdc`     | For electron/ipc, preload: typed channels, Zod validation, no any.                 |
-| `.cursor/rules/main-process-trust.mdc`       | AI, file I/O, persistence, API keys only in main process.                          |
-| `.cursor/rules/ai-provider-abstraction.mdc`  | For electron/services: no direct provider imports; use ai-client factory.          |
-| `.cursor/rules/no-any.mdc`                   | For **/\*.ts, **/\*.vue: avoid any; prefer type imports and explicit return types. |
-| `.cursor/rules/commit-preflight.mdc`         | Always apply: run `npm run ci` before committing; only commit if CI passes.        |
+| File                                         | Responsibility                                                                       |
+| -------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `DESIGN.md`                                  | Source of truth for architecture, tech stack, data model, implementation phases.     |
+| `my-design.md`                               | Original design brief (reference).                                                   |
+| `features/FEATURE_TEMPLATE.md`               | Template for new feature design docs; required before implementation.                |
+| `.cursor/rules/design-spec.mdc`              | Always apply: follow DESIGN.md; on conflicts, stop and ask before proceeding.        |
+| `.cursor/rules/feature-design-first.mdc`     | Always apply: design doc in `features/` before coding; reusability primary.          |
+| `.cursor/rules/structure-md.mdc`             | Always apply: maintain STRUCTURE.md; reconcile vs filesystem.                        |
+| `.cursor/rules/test-with-code.mdc`           | Always apply: add/update unit tests when adding/modifying services or stores.        |
+| `.cursor/rules/vue-storybook-components.mdc` | For `src/components/**/*.vue`: dumb components, Storybook stories required.          |
+| `.cursor/rules/views-are-composers.mdc`      | Views use stores/IPC; components and composables must not.                           |
+| `.cursor/rules/ipc-typed-boundaries.mdc`     | For electron/ipc, preload: typed channels, Zod validation, no any.                   |
+| `.cursor/rules/main-process-trust.mdc`       | AI, file I/O, persistence, API keys only in main process.                            |
+| `.cursor/rules/ai-provider-abstraction.mdc`  | For electron/services: no direct provider imports; use ai-client factory.            |
+| `.cursor/rules/no-any.mdc`                   | For **/\*.ts, **/\*.vue: avoid any; prefer type imports and explicit return types.   |
+| `.cursor/rules/commit-preflight.mdc`         | Always apply: run `npm run ci` before committing; only commit if CI passes.          |
+| `.cursor/rules/setup-script.mdc`             | When editing package.json, ci.yml, playwright config: keep scripts/setup.sh in sync. |
 
 ---
 
