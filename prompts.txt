@@ -34,7 +34,9 @@ If my request contradicts DESIGN.md:
 
 Flag the specific contradiction clearly at the top of your response, formatted as:
 ⚠️ DESIGN CONFLICT: [brief description of the contradiction]
-Then proceed with my request — do not block on confirmation in agentic mode.
+
+Make sure that if my request contradics with the design, the agent should stop and ask the user if they want to continue.
+
 At the end of the response, suggest the specific DESIGN.md update that would reconcile the deviation.
 If I later say "revert to design," undo the deviation and follow DESIGN.md instead.
 
@@ -66,5 +68,9 @@ Keep it concise — if a section grows beyond ~30 entries, summarize subdirector
 Now initialize STRUCTURE.md by scanning the current project filesystem and populating it according to the guidelines above.
 
 
+#6
 
+Looking at the @DESIGN.md , what other cursor rules should I have to maintain clean, effective, performant codebase.
+
+#7
  

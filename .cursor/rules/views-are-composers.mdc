@@ -1,0 +1,36 @@
+---
+description: Only src/views/ may use stores and IPC. Components and composables must not wire app state or window.api.
+globs: src/views/**/*.vue, src/components/**/*.vue, src/composables/**/*.ts
+alwaysApply: false
+---
+
+# Views as Composers
+
+Per DESIGN.md: **Views are the only layer that connects stores and IPC to the component tree.**
+
+## Rules
+
+- **`src/views/`** — May use `useXStore()`, `window.api`, Vue Router, and compose dumb components. This is the composition layer.
+- **`src/components/`** — Must NOT import from stores or call IPC. Components are dumb: props in, events out.
+- **`src/composables/`** — May use stores only if the composable is explicitly a "view hook" (e.g. `useOnboardingFlow` called by a view). Do not expose `window.api` or stores to composables intended for reuse by components.
+
+## Examples
+
+```vue
+<!-- ✅ GOOD — view wires store and components -->
+<script setup lang="ts">
+import { useMealPlanStore } from '@/stores/meal-plan.store'
+import MealCard from '@/components/meal/MealCard.vue'
+
+const store = useMealPlanStore()
+const plans = computed(() => store.plans)
+</script>
+```
+
+```vue
+<!-- ❌ BAD — component uses store -->
+<script setup lang="ts">
+import { useMealPlanStore } from '@/stores/meal-plan.store'
+const store = useMealPlanStore() // belongs in a view
+</script>
+```

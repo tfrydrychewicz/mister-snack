@@ -1,0 +1,31 @@
+---
+description: No service imports provider SDKs directly. All AI goes through ai-client.ts factory.
+globs: electron/services/**/*.ts
+alwaysApply: false
+---
+
+# Provider-Agnostic AI Layer
+
+Per DESIGN.md: **No service or IPC handler imports a provider SDK directly. All AI calls go through the `ai-client.ts` factory.**
+
+## Rules
+
+- **Do not** import `openai`, `@ai-sdk/openai`, `@ai-sdk/anthropic`, etc. in `meal-plan.service.ts`, `image-analysis.service.ts`, or any IPC handler.
+- **Do** obtain the AI client via the factory: `getAIClient()` or equivalent, which reads settings and returns the active provider.
+- **Adding a new provider** — Implement the `AIProvider` interface in `electron/services/ai/providers/`, register it in the factory. No changes to services or IPC.
+
+## Examples
+
+```typescript
+// ✅ GOOD — service uses factory
+import { getAIClient } from '../ai/ai-client'
+
+const client = await getAIClient()
+const result = await client.chat({ messages: [...] })
+```
+
+```typescript
+// ❌ BAD — direct provider import
+import { openai } from '@ai-sdk/openai'
+const result = await openai.chat(...)
+```

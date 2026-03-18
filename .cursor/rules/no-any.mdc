@@ -1,0 +1,33 @@
+---
+description: Avoid any; use proper types or unknown. Prefer type imports. Reinforces TypeScript strict mode.
+globs: "**/*.ts,**/*.vue"
+alwaysApply: false
+---
+
+# TypeScript Discipline
+
+Per DESIGN.md: TypeScript strict mode. No `any` on IPC boundaries. Typed IPC.
+
+## Rules
+
+- **Avoid `any`** — Use `unknown` for truly unknown values, then narrow with type guards. Use proper interfaces for known shapes.
+- **Type imports** — Use `import type { X }` when only types are needed. Reduces runtime footprint.
+- **Explicit return types** — Prefer explicit return types on public functions and exported helpers for clarity.
+- **Strict null checks** — Do not use non-null assertion (`!`) without good reason. Prefer optional chaining and nullish coalescing.
+
+## Examples
+
+```typescript
+// ✅ GOOD
+import type { UserProfile } from '@/types'
+function parseProfile(data: unknown): UserProfile {
+  return userProfileSchema.parse(data)
+}
+```
+
+```typescript
+// ❌ BAD
+function parseProfile(data: any): any {
+  return data
+}
+```

@@ -1,0 +1,22 @@
+---
+description: Maintain STRUCTURE.md as a lightweight project map. Update it when adding, deleting, moving, or renaming files. Reconcile against the filesystem at session start; trust filesystem over the file when they diverge.
+alwaysApply: true
+---
+
+# Maintain STRUCTURE.md
+
+`STRUCTURE.md` in the project root is a supplementary reference for understanding project layout. It is **not** a replacement for scanning the filesystem — always verify against reality when precision matters.
+
+## Maintenance Rules
+
+- **When adding, deleting, moving, or renaming a file** — update STRUCTURE.md in the same step.
+- **At the start of each new task or session** — reconcile STRUCTURE.md against the actual filesystem and fix any drift before proceeding.
+- **If you notice a discrepancy** between STRUCTURE.md and the filesystem at any point — trust the filesystem and update the file.
+
+## Content Guidelines
+
+- For each file, include a one-line description of its responsibility — what it does, not just what it is.
+- Group files by module/feature area, not just directory nesting.
+- Note key architectural decisions and relationships between files (e.g. "X is the only entry point for Y", "A depends on B for config").
+- Mark files that are generated or should not be edited manually.
+- Keep it concise — if a section grows beyond ~30 entries, summarize subdirectories rather than listing every file.

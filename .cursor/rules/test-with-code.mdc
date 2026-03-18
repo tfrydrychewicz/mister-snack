@@ -1,0 +1,22 @@
+---
+description: When adding or modifying a service or store, add or update corresponding unit tests in the same change.
+alwaysApply: true
+---
+
+# Test Coverage With Code
+
+Per DESIGN.md: The app should be tested. Phase 7 requires unit tests for all `*.service.ts` files and Pinia stores.
+
+## Rules
+
+- **When adding or modifying** `electron/services/*.service.ts` — add or update tests in `tests/unit/` (or co-located `*.spec.ts`) in the same change.
+- **When adding or modifying** `src/stores/*.store.ts` — add or update tests in `tests/unit/` in the same change.
+- **When adding a non-trivial component** — add component tests with Vue Test Utils per Phase 7.
+- Tests should be meaningful: cover main paths, edge cases, and error handling. Avoid trivial assertions.
+
+## File Mapping
+
+| Source | Test Location |
+|--------|----------------|
+| `electron/services/profile.service.ts` | `tests/unit/profile.service.spec.ts` |
+| `src/stores/ui.store.ts` | `tests/unit/ui-store.spec.ts` |

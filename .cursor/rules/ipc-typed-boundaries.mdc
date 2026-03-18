@@ -1,0 +1,37 @@
+---
+description: IPC channels must be typed from ipc-channels.ts. Validate all IPC payloads with Zod; no any on boundaries.
+globs: electron/ipc/**/*.ts, electron/preload.ts
+alwaysApply: false
+---
+
+# Typed IPC Boundaries
+
+Per DESIGN.md: **The preload bridge and IPC handlers share a single `IpcChannels` type definition. No `any` on IPC boundaries.** **Zod at every boundary.**
+
+## Rules
+
+- All channel names come from a shared `ipc-channels.ts` (or equivalent) constants file.
+- Every IPC handler must validate incoming args and outgoing results with Zod schemas before use or return.
+- The preload script exposes only typed methods; `invoke`/`send` signatures must match `IpcChannels`.
+- Do not use `any` for IPC payload types. Use inferred types from Zod or explicit interfaces.
+
+## Examples
+
+```typescript
+// ✅ GOOD — typed handler with Zod validation
+import { z } from 'zod'
+const profileSchema = z.object({ id: z.string().uuid(), ... })
+
+ipcMain.handle('profile:save', async (_, raw) => {
+  const parsed = profileSchema.safeParse(raw)
+  if (!parsed.success) throw new Error('Invalid payload')
+  await profileService.save(parsed.data)
+})
+```
+
+```typescript
+// ❌ BAD — untyped, no validation
+ipcMain.handle('profile:save', async (_, data: any) => {
+  await profileService.save(data)
+})
+```

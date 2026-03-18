@@ -1,0 +1,23 @@
+---
+description: All AI calls, file I/O, and persistence stay in electron/. API keys never reach the renderer.
+globs: electron/**/*.ts, src/**/*.ts, src/**/*.vue
+alwaysApply: false
+---
+
+# Main Process Trust Boundary
+
+Per DESIGN.md: **All AI API calls, file I/O, and data persistence happen in the main process. The renderer only sends and receives plain serialisable objects.** **API keys never leave the main process.**
+
+## Rules
+
+- **AI calls** — Only in `electron/services/`. Never call OpenAI, Anthropic, etc. from the renderer.
+- **File I/O** — Only in main process. Use IPC to request file ops; return serialisable results.
+- **Persistence** — Only `StorageService` (electron-store) in main. Renderer reads/writes via IPC.
+- **API keys** — Store encrypted in main. Renderer receives only `hasApiKey: boolean` or equivalent. Never send raw keys over IPC.
+- **Serialisation** — IPC payloads must be JSON-serialisable. No functions, Symbols, or class instances.
+
+## Renderer
+
+- Import only from `src/`, Vue, Pinia, Vue Router, VeeValidate, Zod, Tailwind.
+- Do not import `electron`, `fs`, `path`, or any Node-only modules.
+- All external data comes via `window.api` (typed IPC).

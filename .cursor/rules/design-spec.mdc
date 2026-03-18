@@ -1,5 +1,5 @@
 ---
-description: Treat DESIGN.md as the source of truth for architecture, features, and UX. Consult it before new features or architectural changes. Flag conflicts, then proceed; suggest updates when deviating.
+description: Treat DESIGN.md as the source of truth for architecture, features, and UX. Consult it before new features or architectural changes. On design conflicts, stop and ask before proceeding.
 alwaysApply: true
 ---
 
@@ -21,9 +21,9 @@ alwaysApply: true
     ```
     ⚠️ DESIGN CONFLICT: [brief description of the contradiction]
     ```
-  - Then proceed with the user's request — do not block on confirmation in agentic mode.
-  - At the end of the response, suggest the specific DESIGN.md update that would reconcile the deviation.
-  - If the user later says "revert to design," undo the deviation and follow DESIGN.md instead.
+  - **Stop and ask the user** whether they want to proceed anyway. Do not implement the conflicting request until the user confirms.
+  - If the user confirms, proceed with their request and, at the end, suggest the specific DESIGN.md update that would reconcile the deviation.
+  - If the user says "revert to design" (or declines), undo any deviation and follow DESIGN.md instead.
 - If DESIGN.md is ambiguous or silent on a topic, make a reasonable choice and note that the design didn't specify.
 
 ## Keeping It Current
