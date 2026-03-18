@@ -87,4 +87,9 @@ create a cursor rule that will enforce running `npm run ci` everytime that I ask
 #10
 
 the app should have a toolbar that will contain the macos window buttons and will allow to drag the window around
- 
+
+#11
+
+create a setup script (scripts/setup.sh) that will check and setup everything that is needed to run and develop this app in the fresh environemt.
+
+create a cursor rule that will ensure the script is always up-to-date
